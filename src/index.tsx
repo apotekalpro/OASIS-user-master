@@ -377,6 +377,20 @@ app.get('/api/sync/status', async (c) => {
   }
 })
 
+// Debug endpoint to check environment variables
+app.get('/api/debug/env', (c) => {
+  return c.json({
+    hasSupabaseUrl: !!c.env.SUPABASE_URL,
+    hasSupabaseAnonKey: !!c.env.SUPABASE_ANON_KEY,
+    hasSupabaseServiceKey: !!c.env.SUPABASE_SERVICE_KEY,
+    hasGoogleSheetId: !!c.env.GOOGLE_SHEET_ID,
+    hasGoogleServiceEmail: !!c.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    hasGooglePrivateKey: !!c.env.GOOGLE_PRIVATE_KEY,
+    hasDefaultPassword: !!c.env.DEFAULT_PASSWORD,
+    supabaseUrl: c.env.SUPABASE_URL ? c.env.SUPABASE_URL.substring(0, 30) + '...' : 'missing'
+  })
+})
+
 // ======================
 // FRONTEND PAGES
 // ======================
