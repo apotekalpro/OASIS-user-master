@@ -493,6 +493,12 @@ app.get('/', (c) => {
             <p class="text-center text-sm text-gray-600 mt-6">
                 First time login? Use default password: <code class="bg-gray-100 px-2 py-1 rounded">Alpro@123</code>
             </p>
+            
+            <div class="text-center mt-4">
+                <a href="/superadmin" class="text-red-600 hover:text-red-700 text-sm font-medium">
+                    <i class="fas fa-user-shield mr-1"></i>Superadmin Console
+                </a>
+            </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
