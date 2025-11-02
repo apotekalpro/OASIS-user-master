@@ -1,0 +1,43 @@
+name: Daily Employee Sync
+
+on:
+  # Schedule: Run daily at 6 PM UTC (1 AM Jakarta time - WIB is UTC+7)
+  schedule:
+    - cron: '0 18 * * *'
+  
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Employee Sync
+        run: |
+          echo "Triggering employee sync at $(date)"
+          
+          # Call the sync endpoint
+          response=$(curl -s -w "\n%{http_code}" -X POST https://oasis-user-master.pages.dev/api/sync)
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+          
+          # Check if sync was successful (HTTP 200)
+          if [ "$http_code" -eq 200 ]; then
+            echo "✅ Sync completed successfully!"
+            echo "$body" | jq '.' || echo "$body"
+          else
+            echo "❌ Sync failed with status $http_code"
+            echo "$body"
+            exit 1
+          fi
+      
+      - name: Send notification on failure
+        if: failure()
+        run: |
+          echo "⚠️ Daily sync failed! Check the logs above for details."
+          echo "Time: $(date)"
+          echo "You may need to manually trigger sync at: https://oasis-user-master.pages.dev/api/sync"
