@@ -1,13 +1,9 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "webapp",
+  "name": "oasis-user-master",
   "compatibility_date": "2025-11-01",
   "pages_build_output_dir": "./dist",
   "compatibility_flags": [
     "nodejs_compat"
-  ],
-  // Cron trigger for daily sync at 1 AM Jakarta time (6 PM UTC previous day)
-  "triggers": {
-    "crons": ["0 18 * * *"]
-  }
+  ]
 }
