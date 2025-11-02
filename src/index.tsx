@@ -391,6 +391,40 @@ app.get('/api/debug/env', (c) => {
   })
 })
 
+// Debug endpoint to check database and specific employee
+app.get('/api/debug/employee/:id', async (c) => {
+  try {
+    const employee_id = c.req.param('id')
+    const admin = getSupabaseAdmin(c.env as SupabaseEnv)
+    
+    // Try to get the employee
+    const { data: employee, error } = await admin
+      .from('employees')
+      .select('*')
+      .eq('employee_id', employee_id)
+      .single()
+    
+    if (error) {
+      return c.json({ 
+        error: error.message, 
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        employee_id 
+      }, 404)
+    }
+    
+    return c.json({ 
+      employee: {
+        ...employee,
+        auth_user_id: employee.auth_user_id ? 'exists' : 'missing'
+      }
+    })
+  } catch (error: any) {
+    return c.json({ error: error.message }, 500)
+  }
+})
+
 // ======================
 // FRONTEND PAGES
 // ======================
