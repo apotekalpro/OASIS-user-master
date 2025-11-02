@@ -1163,17 +1163,5 @@ app.get('/superadmin', (c) => {
   `)
 })
 
-// Scheduled cron handler
-export default {
-  fetch: app.fetch,
-  async scheduled(event: ScheduledEvent, env: Bindings, ctx: ExecutionContext) {
-    console.log('Cron trigger fired at:', new Date().toISOString())
-    
-    try {
-      const result = await syncEmployeesWithSupabase(env as any)
-      console.log('Scheduled sync completed:', result)
-    } catch (error) {
-      console.error('Scheduled sync failed:', error)
-    }
-  }
-}
+// Export for Cloudflare Pages
+export default app
