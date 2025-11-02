@@ -5,5 +5,9 @@
   "pages_build_output_dir": "./dist",
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "vars": {
+    "SUPABASE_URL": "https://tqkizsrmfplmmzhjhemy.supabase.co",
+    "DEFAULT_PASSWORD": "Alpro@123"
+  }
 }
